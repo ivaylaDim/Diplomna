@@ -1,0 +1,201 @@
+/* Core styles for Български Културен Архив - assets/style.css */
+:root{
+  --max-width:1200px;
+  --bg:#f6f6f4;
+  --accent:#6b3e8a;
+  --muted:#6b6b6b;
+  --card:#ffffff;
+  --gap:1.25rem;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  line-height:1.45;
+  color:#222;
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+}
+.container{
+  width:100%;
+  max-width:var(--max-width);
+  margin:0 auto;
+  padding:0 1rem;
+}
+
+/* Header */
+.site-header{
+  background:linear-gradient(90deg, rgba(255,255,255,0.9), rgba(250,250,250,0.9));
+  border-bottom:1px solid #e6e6e6;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+.site-header .container{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:var(--gap);
+  padding:1rem 0;
+}
+.logo h1{font-size:1.125rem;margin:0}
+.logo h1 a{color:var(--accent);text-decoration:none}
+.logo p{margin:2px 0 0;color:var(--muted);font-size:0.9rem}
+
+.main-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:1rem;align-items:center}
+.main-nav a{color:#333;text-decoration:none;padding:0.35rem 0.45rem;border-radius:4px}
+.main-nav a:hover{background:rgba(107,62,138,0.06)}
+
+.user-actions{display:flex;gap:0.5rem;align-items:center}
+.btn-login,.btn-register{padding:0.45rem 0.8rem;border-radius:6px;text-decoration:none;font-size:0.95rem}
+.btn-login{background:transparent;border:1px solid #ddd;color:#333}
+.btn-register{background:var(--accent);color:#fff;border:1px solid var(--accent)}
+
+/* Hero */
+.hero{padding:3.25rem 0;background:linear-gradient(180deg, rgba(107,62,138,0.06), transparent)}
+.hero h2{font-size:1.75rem;margin:0 0 0.5rem}
+.hero p{margin:0 0 1rem;color:var(--muted)}
+.search-box{margin-top:1rem}
+.search-input{padding:0.6rem 0.75rem;border:1px solid #ddd;border-radius:6px 0 0 6px;width:60%;max-width:420px}
+.search-btn{padding:0.62rem 0.9rem;border:none;background:var(--accent);color:#fff;border-radius:0 6px 6px 0;cursor:pointer}
+
+/* Sections */
+section{padding:2rem 0}
+section h3{margin:0 0 1rem;font-size:1.25rem;color:#222}
+
+.collection-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.collection-item{background:var(--card);padding:1rem;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.03);text-align:center}
+.collection-item img{width:72px;height:72px;object-fit:contain;margin-bottom:0.5rem}
+.collection-item h4{margin:0.25rem 0 0.5rem;font-size:1rem}
+.collection-item p{font-size:0.9rem;color:var(--muted);margin:0 0 0.75rem}
+.collection-item a{display:inline-block;padding:0.4rem 0.7rem;border-radius:6px;background:rgba(107,62,138,0.08);color:var(--accent);text-decoration:none;font-weight:600}
+
+.featured-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.featured-item{background:var(--card);padding:0.75rem;border-radius:8px;display:flex;gap:0.75rem;align-items:center}
+.featured-item img{width:86px;height:86px;object-fit:cover;border-radius:4px}
+.featured-item h5{margin:0 0 0.25rem;font-size:0.98rem}
+.featured-item p{margin:0;color:var(--muted);font-size:0.9rem}
+
+.contribute-actions{display:flex;gap:0.75rem;margin-top:1rem}
+.btn-primary{background:var(--accent);color:#fff;padding:0.6rem 0.9rem;border-radius:8px;text-decoration:none}
+.btn-secondary{background:#fff;border:1px solid #ddd;color:#333;padding:0.55rem 0.9rem;border-radius:8px;text-decoration:none}
+
+/* Footer */
+.site-footer{background:#fff;border-top:1px solid #e6e6e6;padding:2rem 0;margin-top:2rem}
+.footer-content{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.footer-section h4{margin:0 0 0.5rem}
+.footer-section p, .footer-section ul{margin:0;color:var(--muted);font-size:0.95rem}
+.footer-section ul{list-style:none;padding:0}
+.footer-section ul li{margin:0.35rem 0}
+.footer-bottom{margin-top:1rem;text-align:center;color:var(--muted);font-size:0.92rem}
+
+/* Utilities */
+.card{background:var(--card);padding:1rem;border-radius:8px}
+img{max-width:100%;height:auto;display:block}
+
+/* Responsive */
+@media (max-width:1000px){
+  .collection-grid{grid-template-columns:repeat(3,1fr)}
+  .featured-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:760px){
+  .site-header .container{flex-direction:column;align-items:stretch}
+  .main-nav ul{flex-wrap:wrap;gap:0.5rem}
+  .collection-grid{grid-template-columns:repeat(2,1fr)}
+  .featured-grid{grid-template-columns:1fr}
+  .search-input{width:100%;max-width:none;border-radius:6px;margin-bottom:0.5rem}
+  .search-btn{width:100%;border-radius:6px}
+  .logo p{display:none}
+  .footer-content{grid-template-columns:1fr}
+}
+@media (max-width:420px){
+  .collection-grid{grid-template-columns:1fr}
+  .logo h1{font-size:1rem}
+}
+
+/* Small tweaks */
+.main-nav a:focus,.btn-login:focus,.btn-register:focus{outline:3px solid rgba(107,62,138,0.12)}
+
+/* End of stylesheet */
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 1rem;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Form Elements */
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Utility Classes */
+.text-center {
+    text-align: center;
+}
+
+.mt-1 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 1rem; }
+.p-1 { padding: 1rem; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+}
