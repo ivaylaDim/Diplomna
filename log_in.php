@@ -1,4 +1,5 @@
-#login page. add capcha? store session. check user role on login 
+
+<!--login page. add capcha? store session. check user role on login -->
 
 <?php
 session_start();
@@ -6,6 +7,13 @@ session_start();
 if (isset($_SESSION["user_id"])) {
 	header("Location: index.php");
 	exit;
+}
+require_once __DIR__ . '/config.php';
+
+// Optional flash message (e.g. after successful registration)
+$flash_msg = '';
+if (!empty($_GET['msg'])) {
+	$flash_msg = htmlspecialchars($_GET['msg'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 ?>
 
@@ -17,6 +25,7 @@ if (isset($_SESSION["user_id"])) {
 	<title>Вход — Български Културен Архив</title>
 	<link rel="stylesheet" href="assets/style.css">
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="assets/script/app.js" defer></script>
 </head>
 <body>
 	<header class="site-header">
@@ -27,19 +36,20 @@ if (isset($_SESSION["user_id"])) {
 			</div>
 			<nav class="main-nav">
 				<ul>
-					<li><a href="/DIPLOMNA/">Начало</a></li>
+					<li><a href="index.php">Начало</a></li>
 				</ul>
 			</nav>
-			<div class="user-actions">
-				<a href="log_in.php" class="btn-login">Вход</a>
-				<a href="register.php" class="btn-register">Регистрация</a>
-			</div>
 		</div>
 	</header>
 
 	<main>
 		<section class="hero">
 			<div class="container">
+				<?php if (!empty($flash_msg)): ?>
+				<div class="flash-success" style="background:#e6ffed;border:1px solid #b6f1c5;padding:0.75rem;border-radius:4px;color:#065f26;margin-bottom:1rem;">
+					<?php echo $flash_msg; ?>
+				</div>
+				<?php endif; ?>
 				<div class="card auth-card">
 					<div class="auth-forms">
 						<!-- Login panel -->
@@ -47,18 +57,17 @@ if (isset($_SESSION["user_id"])) {
 							<div >
 								<h2>Вход</h2>
 								<form action="api/login.php" method="POST">
-									<label for="email">Имейл</label>
-									<input id="email" name="email" type="email" required>
+									<label for="log-emailOrUsername">Имейл или потребителско име</label>
+									<input id="log-emailOrUsername" name="log-emailOrUsername" type="text" required>
 
-									<label for="password">Парола</label>
-									<input id="password" name="password" type="password" required>
+									<label for="log-password">Парола</label>
+									<input id="log-password" name="log-password" type="password" required>
 
 									<div>
-										<label><input type="checkbox" name="remember">Запомни ме</label>
-										<a href="#" id="show-register">Нямате акаунт?</a>
+										<label for="log-remember">Запомни ме</label>
+										<input type="checkbox" id="log-remember" name="log-remember" value="1">
+										<a href="register.php" id="show-register">Нямате акаунт?</a>
 									</div>
-									<div class="g-recaptcha" data-sitekey="6LdsWCAsAAAAAPicdWmvwvHBluHoAkaxg-NOFhQT"></div>
-
 									<button type="submit" class="btn-primary">Вход</button>
 								</form>
 							</div>

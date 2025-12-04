@@ -1,8 +1,25 @@
-#main page. load images from assets/img
 
+<?php
 
+#main page. show collections, featured items, search bar, login/register links if not logged in
 
+session_start();
+require_once "db.php";
 
+// show a message passed from a redirect 
+//TODO make message disappear after some time
+
+$flash_msg = '';
+if (!empty($_GET['msg'])) {
+    $flash_msg = htmlspecialchars($_GET['msg'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+if (!isset($_SESSION["user_id"])) {
+    // No session — require explicit login. The application does not rely on a DB-stored remember token.
+    header("Location: log_in.php");
+    exit;
+}
+?>
 
 <!DOCTYPE html>
 <html lang="bg">
@@ -30,12 +47,46 @@
                     <li><a href="/upload">Качи материал</a></li>
                 </ul>
             </nav>
-            <div class="user-actions">
-                <a href="./login.php" class="btn-login">Вход</a>
-                <a href="./register.php" class="btn-register">Регистрация</a>
-            </div>
+            <?php
+            // show current user's username (page already requires login)
+            $username = 'Потребител';
+
+            if (!empty($_SESSION['username'])) {
+                $username = $_SESSION['username'];
+            } elseif (!empty($_SESSION['user_id'])) {
+                $uid = (int)$_SESSION['user_id'];
+                // try common DB handles (adjust to your db.php)
+                if (isset($pdo) && $pdo instanceof PDO) {
+                    $stmt = $pdo->prepare('SELECT username FROM users WHERE id = ? LIMIT 1');
+                    $stmt->execute([$uid]);
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                    if (!empty($row['username'])) $username = $row['username'];
+                } elseif (isset($mysqli) && $mysqli instanceof mysqli) {
+                    $stmt = $mysqli->prepare('SELECT username FROM users WHERE id = ? LIMIT 1');
+                    if ($stmt) {
+                        $stmt->bind_param('i', $uid);
+                        $stmt->execute();
+                        $res = $stmt->get_result();
+                        if ($res && ($row = $res->fetch_assoc()) && !empty($row['username'])) {
+                            $username = $row['username'];
+                        }
+                    }
+                }
+            }
+
+            $username = htmlspecialchars($username, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+            ?>
+            <span class="user-name">Привет, <?php echo $username; ?></span>
+            <a href="./log_out.php" class="btn-logout">Изход</a></div>
         </div>
     </header>
+    <?php if (!empty($flash_msg)): ?>
+    <div class="container" style="margin-top:1rem;">
+        <div class="flash-success" style="background:#e6ffed;border:1px solid #b6f1c5;padding:0.75rem;border-radius:4px;color:#065f26;">
+            <?php echo $flash_msg; ?>
+        </div>
+    </div>
+    <?php endif; ?>
 
     <main>
         <section class="hero">
@@ -56,28 +107,28 @@
                 <h3>Колекции</h3>
                 <div class="collection-grid">
                     <div class="collection-item">
-                        <img src="/images/theater-icon.png" alt="Театър">
+                        <img src="/img/carmen_tile.jpg" alt="Театър">
                         <h4>Театрални плакати</h4>
                         <p>Архив на плакати от български театри</p>
-                        <a href="/collections/theater-posters">Разгледай</a>
+                        <a href="#">Разгледай</a>
                     </div>
                     <div class="collection-item">
-                        <img src="/images/opera-icon.png" alt="Опера">
-                        <h4>Оперни сценарии</h4>
-                        <p>Либрета и сценарии на български опери</p>
-                        <a href="/collections/opera-scripts">Разгледай</a>
+                        <img src="/img/faust_tile.jpg" alt="Опера"> <!-- TODO change -->
+                        <h4>Оперни Корици</h4>
+                        <p>Либрета и корици на български опери</p>
+                        <a href="#">Разгледай</a>
                     </div>
                     <div class="collection-item">
-                        <img src="/images/books-icon.png" alt="Книги">
+                        <img src="/img/tutun_tile.jpg" alt="Книги">
                         <h4>Български издания</h4>
                         <p>Корици и съдържание на книги в публичен домейн</p>
-                        <a href="/collections/books">Разгледай</a>
+                        <a href="#">Разгледай</a>
                     </div>
                     <div class="collection-item">
-                        <img src="/images/manuscripts-icon.png" alt="Ръкописи">
-                        <h4>Исторически документи</h4>
+                        <img src="/img/script_tile.jpg" alt="Сценарии">
+                        <h4>Сценарии от постановки</h4>
                         <p>Дигитализирани исторически материали</p>
-                        <a href="/collections/documents">Разгледай</a>
+                        <a href="#">Разгледай</a>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,6 @@
-#connect db
 <?php
+
+#connect db
 
 $host = 'localhost';
 $db_name = 'archive_bg';
