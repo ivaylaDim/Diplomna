@@ -11,10 +11,10 @@ if (isset($_SESSION["user_id"])) {
 require_once __DIR__ . '/config.php';
 
 // Optional flash message (e.g. after successful registration)
-$flash_msg = '';
-if (!empty($_GET['msg'])) {
-	$flash_msg = htmlspecialchars($_GET['msg'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-}
+// $flash_msg = '';
+// if (!empty($_GET['msg'])) {
+// 	$flash_msg = htmlspecialchars($_GET['msg'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+// }
 ?>
 
 <!DOCTYPE html>
@@ -23,9 +23,11 @@ if (!empty($_GET['msg'])) {
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Вход — Български Културен Архив</title>
-	<link rel="stylesheet" href="assets/style.css">
+	<link rel="stylesheet" href="assets/style/style.css">
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="assets/script/app.js" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 	<header class="site-header">

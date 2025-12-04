@@ -4,15 +4,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	if (!loginForm) return;
 
 	// Insert a place for inline messages
-	let msgBox = document.createElement('div');
-	msgBox.className = 'form-message';
-	msgBox.style.color = 'red';
-	msgBox.style.marginBottom = '0.5rem';
-	loginForm.insertBefore(msgBox, loginForm.firstChild);
 
 	loginForm.addEventListener('submit', async function (e) {
 		e.preventDefault();
-		msgBox.textContent = '';
 
 		const formData = new FormData(loginForm);
 
@@ -40,20 +34,39 @@ document.addEventListener('DOMContentLoaded', function () {
 					return;
 				}
 				// Otherwise show server text as error message
-				msgBox.textContent = text || `Invalid JSON response (status ${resp.status} ${resp.statusText})`;
+					Swal.fire({
+						icon: 'error',
+						title: 'Сървърна грешка',
+						text: text || `Invalid JSON response (status ${resp.status} ${resp.statusText})`
+					});
 				return;
 			}
 
 			if (data.status === 'success') {
 				// Redirect to index.php with message
-				const msg = encodeURIComponent(data.message || 'Успешен вход');
-				window.location.href = 'index.php?msg=' + msg;
+					const msgText = data.message || 'Успешен вход';
+					Swal.fire({
+						icon: 'success',
+						title: msgText,
+						timer: 1200,
+						showConfirmButton: false
+					}).then(() => {
+						window.location.href = 'index.php?msg=' + encodeURIComponent(msgText);
+					});
 			} else {
-				msgBox.textContent = data.message || 'Грешка при вход.';
+					Swal.fire({
+						icon: 'error',
+						title: 'Грешка при вход',
+						text: data.message || 'Грешка при вход.'
+					});
 			}
 		} catch (err) {
 			console.error(err);
-			msgBox.textContent = 'Грешка при изпращане. Моля опитайте отново.';
+				Swal.fire({
+					icon: 'error',
+					title: 'Грешка',
+					text: 'Грешка при изпращане. Моля опитайте отново.'
+				});
 		}
 	});
 });
@@ -62,15 +75,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const regForm = document.querySelector('form[action="api/register.php"]');
     if (!regForm) return;
 
-    let msgBox = document.createElement('div');
-    msgBox.className = 'form-message';
-    msgBox.style.color = 'red';
-    msgBox.style.marginBottom = '0.5rem';
-    regForm.insertBefore(msgBox, regForm.firstChild);
 
     regForm.addEventListener('submit', async function (e) {
         e.preventDefault();
-        msgBox.textContent = '';
 
         const formData = new FormData(regForm);
 
@@ -91,20 +98,78 @@ document.addEventListener('DOMContentLoaded', function () {
                     window.location.href = resp.url || 'index.php';
                     return;
                 }
-                msgBox.textContent = text || `Invalid JSON response (status ${resp.status} ${resp.statusText})`;
+				Swal.fire({
+					icon: 'error',
+					title: 'Сървърна грешка',
+					text: text || `Invalid JSON response (status ${resp.status} ${resp.statusText})`
+				});
                 return;
             }
 
 			if (data.status === 'success') {
-				const msg = encodeURIComponent(data.message || 'Регистрацията е успешна');
-				// After registration send user to login page with message
-				window.location.href = 'log_in.php?msg=' + msg;
+				const msgText = data.message || 'Регистрацията е успешна';
+				Swal.fire({
+					icon: 'success',
+					title: msgText,
+					timer: 1200,
+					showConfirmButton: false
+				}).then(() => {
+					window.location.href = 'log_in.php?msg=' + encodeURIComponent(msgText);
+				});
 			} else {
-                msgBox.textContent = data.message || 'Грешка при регистрация.';
+				Swal.fire({
+					icon: 'error',
+					title: 'Грешка при регистрация',
+					text: data.message || 'Грешка при регистрация.'
+				});
             }
         } catch (err) {
             console.error(err);
-            msgBox.textContent = 'Грешка при изпращане. Моля опитайте отново.';
+			Swal.fire({
+				icon: 'error',
+				title: 'Грешка',
+				text: 'Грешка при изпращане. Моля опитайте отново.'
+			});
         }
     });
+});
+
+document.getElementById('logoutBtn').addEventListener('click', function (e) {
+	e.preventDefault();
+
+	$.post("api/logout.php")
+		.done(function (response) {
+			let data = null;
+			try {
+				data = (typeof response === 'string') ? JSON.parse(response) : response;
+			} catch (parseErr) {
+				data = null;
+			}
+
+			if (data && data.status === 'success') {
+				const msgText = data.message || 'Успешно излизане';
+				Swal.fire({
+					icon: 'success',
+					title: msgText,
+					timer: 1200,
+					showConfirmButton: false
+				}).then(() => {
+					window.location.href = 'log_in.php?msg=' + encodeURIComponent(msgText);
+				});
+			} else {
+				const errMsg = (data && data.message) ? data.message : 'Грешка при излизане.';
+				Swal.fire({
+					icon: 'error',
+					title: 'Грешка',
+					text: errMsg
+				});
+			}
+		})
+		.fail(function () {
+			Swal.fire({
+				icon: 'error',
+				title: 'Грешка',
+				text: 'Не може да се свърже със сървъра.'
+			});
+		});
 });

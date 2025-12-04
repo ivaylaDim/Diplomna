@@ -15,8 +15,10 @@ if (isset($_SESSION["user_id"])) {
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Вход — Български Културен Архив</title>
-	<link rel="stylesheet" href="assets/style.css">
+	<link rel="stylesheet" href="assets/style/style.css">
     <script src="assets/script/app.js" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 	<header class="site-header">

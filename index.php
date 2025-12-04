@@ -9,13 +9,12 @@ require_once "db.php";
 // show a message passed from a redirect 
 //TODO make message disappear after some time
 
-$flash_msg = '';
-if (!empty($_GET['msg'])) {
-    $flash_msg = htmlspecialchars($_GET['msg'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-}
+// $flash_msg = '';
+// if (!empty($_GET['msg'])) {
+//     $flash_msg = htmlspecialchars($_GET['msg'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+// }
 
 if (!isset($_SESSION["user_id"])) {
-    // No session — require explicit login. The application does not rely on a DB-stored remember token.
     header("Location: log_in.php");
     exit;
 }
@@ -28,7 +27,9 @@ if (!isset($_SESSION["user_id"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Български Културен Архив</title>
     <link rel="stylesheet" href="assets/style/style.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="assets/script/app.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
     <header class="site-header">
@@ -77,7 +78,9 @@ if (!isset($_SESSION["user_id"])) {
             $username = htmlspecialchars($username, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
             ?>
             <span class="user-name">Привет, <?php echo $username; ?></span>
-            <a href="./log_out.php" class="btn-logout">Изход</a></div>
+            <div>
+                <button type="submit" id="logoutBtn" class="btn-logout">Изход</button>
+            </div>
         </div>
     </header>
     <?php if (!empty($flash_msg)): ?>
@@ -139,17 +142,17 @@ if (!isset($_SESSION["user_id"])) {
                 <h3>Препоръчани материали</h3>
                 <div class="featured-grid">
                     <div class="featured-item">
-                        <img src="/uploads/thumbnails/sample1.jpg" alt="Избран материал">
+                        <img src="#" alt="Избран материал">
                         <h5>Плакат "Хамлет" - Народен театър 1985</h5>
                         <p>Автор: неизвестен</p>
                     </div>
                     <div class="featured-item">
-                        <img src="/uploads/thumbnails/sample2.jpg" alt="Избран материал">
+                        <img src="#" alt="Избран материал">
                         <h5>Корица на "Под игото" - първо издание</h5>
                         <p>Иван Вазов, 1894 г.</p>
                     </div>
                     <div class="featured-item">
-                        <img src="/uploads/thumbnails/sample3.jpg" alt="Избран материал">
+                        <img src="#" alt="Избран материал">
                         <h5>Програма от "Кармен" - София опера</h5>
                         <p>Премиера 1978 г.</p>
                     </div>
@@ -201,6 +204,5 @@ if (!isset($_SESSION["user_id"])) {
         </div>
     </footer>
 
-    <script src="script.js"></script>
 </body>
 </html>
