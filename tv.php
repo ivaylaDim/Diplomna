@@ -1,5 +1,3 @@
-<!-- edit and delete form. delete option only when user role=admin -->
-
 <?php
 session_start();
 
@@ -9,19 +7,17 @@ if (!isset($_SESSION["user_id"])) {
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="bg">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Подаване на материал — Български Културен Архив</title>
+    <title>Статии — Български Културен Архив</title>
     <link rel="stylesheet" href="assets/style/style.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/script/app.js" defer></script>
-    <script>
-        
-    </script>
 </head>
 <body>
 <header class="site-header">
@@ -38,16 +34,18 @@ if (!isset($_SESSION["user_id"])) {
     </div>
 </header>
 
-<main>
-<form action="edit.php" method="post">
-    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-    <input type="text" name="title" value="<?php echo $row['title']; ?>">
-    <input type="text" name="content" value="<?php echo $row['content']; ?>">
-    <input type="submit" name="update" value="Update">
-    <?php if ($_SESSION['role'] == 'admin'): ?>
-        <input type="submit" name="delete" value="Delete">
-    <?php endif; ?>
-</form>
+<main class="container">
+    <h1>Сериали</h1>
+
+    <button id="reload-tv" class="reload">Презареди</button>
+    <span id="loader-tv" class="loader" style="display:none;">Зареждане...</span>
+    <div id="message-tv" class="error"></div>
+
+    <div id="tv">
+         <!-- load tv -->
+    </div>
 </main>
+
+
 </body>
 </html>

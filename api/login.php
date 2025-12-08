@@ -16,12 +16,11 @@ $password = $_POST['log-password'] ?? '';
 $remember = isset($_POST['log-remember']) ? (int)$_POST['log-remember'] : 0;
 
 if (empty($usernameOrEmail) || empty($password)) {
-    $msg = 'Моля, попълнете всички полета!';
     if ($acceptsJson) {
-        echo json_encode(['status' => 'error', 'message' => $msg]);
+        echo json_encode(['status' => 'error', 'message' => 'Моля, попълнете всички полета!']);
         exit;
     }
-    $_SESSION['flash_error'] = $msg;
+    $_SESSION['flash_error'] = 'Грешка';
     header('Location: ../log_in.php');
     exit;
 }
@@ -53,26 +52,24 @@ if ($user = $result->fetch_assoc()) {
     if (password_verify($password, $user["hashed_pass"])) {
         $_SESSION['username'] = $user["username"];
         $_SESSION['user_id'] = $user["id"];
+        // Store user role in session for access control
+        $_SESSION['role'] = $user['role'] ?? 'user';
         if ($remember) {
             
             $params = session_get_cookie_params();
             setcookie(session_name(), session_id(), time() + (60 * 60 * 24 * 30), $params['path'], $params['domain'], $params['secure'], $params['httponly']);
         }
-        $msg = 'Добре дошъл!';
         if ($acceptsJson) {
-            echo json_encode(['status' => 'success', 'message' => $msg]);
+            echo json_encode(['status' => 'success', 'message' => 'Успешен вход!']);
             exit;
         }
         header('Location: ../index.php');
         exit;
     } else {
-        $msg = 'Грешни данни за вход!';
         if ($acceptsJson) {
-            echo json_encode(['status' => 'error', 'message' => $msg]);
+            echo json_encode(['status' => 'error', 'message' => 'Грешни данни за вход!']);
             exit;
         }
-        $_SESSION['flash_error'] = $msg;
-        header('Location: ../log_in.php');
         exit;
     }
 } else {

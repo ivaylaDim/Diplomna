@@ -1,5 +1,3 @@
-<!-- edit and delete form. delete option only when user role=admin -->
-
 <?php
 session_start();
 
@@ -7,8 +5,10 @@ if (!isset($_SESSION["user_id"])) {
     header("Location: log_in.php");
     exit;
 }
-
+#TODO normalise head tags in every file
 ?>
+
+
 <!DOCTYPE html>
 <html lang="bg">
 <head>
@@ -37,17 +37,22 @@ if (!isset($_SESSION["user_id"])) {
         </nav>
     </div>
 </header>
+<body>
+<main class="container">
+    <h1>Филми</h1>
 
-<main>
-<form action="edit.php" method="post">
-    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-    <input type="text" name="title" value="<?php echo $row['title']; ?>">
-    <input type="text" name="content" value="<?php echo $row['content']; ?>">
-    <input type="submit" name="update" value="Update">
-    <?php if ($_SESSION['role'] == 'admin'): ?>
-        <input type="submit" name="delete" value="Delete">
-    <?php endif; ?>
-</form>
+    <button id="reload">Презареди</button>
+    <span id="loader">Зареждане...</span>
+    <div id="message" class="error"></div>
+
+    <div id="films">
+        <!-- load films -->
+    </div>
+
 </main>
+
+
+
+
 </body>
 </html>

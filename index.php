@@ -1,18 +1,10 @@
 
 <?php
 
-#main page. show collections, featured items, search bar, login/register links if not logged in
+#main page. show collections, featured items, search bar, redirect to login/register if not logged in
 
 session_start();
 require_once "db.php";
-
-// show a message passed from a redirect 
-//TODO make message disappear after some time
-
-// $flash_msg = '';
-// if (!empty($_GET['msg'])) {
-//     $flash_msg = htmlspecialchars($_GET['msg'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-// }
 
 if (!isset($_SESSION["user_id"])) {
     header("Location: log_in.php");
@@ -40,39 +32,19 @@ if (!isset($_SESSION["user_id"])) {
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="/texts">Текстове</a></li>
-                    <li><a href="/images">Изображения</a></li>
-                    <li><a href="/posters">Плакати</a></li>
-                    <li><a href="/books">Книги</a></li>
-                    <li><a href="/about">За нас</a></li>
-                    <li><a href="/upload">Качи материал</a></li>
+                    <li><a href="./articles.php">Статии</a></li>
+                    <li><a href="./books.php">Книги</a></li>
+                    <li><a href="./films.php">Филми</a></li>
+                    <li><a href="./tv.php">Сериали</a></li>
+                    <li><a href="#">За нас</a></li>
+                    <li><a href="./submission.php">Качи материал</a></li>
                 </ul>
             </nav>
             <?php
-            // show current user's username (page already requires login)
             $username = 'Потребител';
 
             if (!empty($_SESSION['username'])) {
                 $username = $_SESSION['username'];
-            } elseif (!empty($_SESSION['user_id'])) {
-                $uid = (int)$_SESSION['user_id'];
-                // try common DB handles (adjust to your db.php)
-                if (isset($pdo) && $pdo instanceof PDO) {
-                    $stmt = $pdo->prepare('SELECT username FROM users WHERE id = ? LIMIT 1');
-                    $stmt->execute([$uid]);
-                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                    if (!empty($row['username'])) $username = $row['username'];
-                } elseif (isset($mysqli) && $mysqli instanceof mysqli) {
-                    $stmt = $mysqli->prepare('SELECT username FROM users WHERE id = ? LIMIT 1');
-                    if ($stmt) {
-                        $stmt->bind_param('i', $uid);
-                        $stmt->execute();
-                        $res = $stmt->get_result();
-                        if ($res && ($row = $res->fetch_assoc()) && !empty($row['username'])) {
-                            $username = $row['username'];
-                        }
-                    }
-                }
             }
 
             $username = htmlspecialchars($username, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -83,13 +55,6 @@ if (!isset($_SESSION["user_id"])) {
             </div>
         </div>
     </header>
-    <?php if (!empty($flash_msg)): ?>
-    <div class="container" style="margin-top:1rem;">
-        <div class="flash-success" style="background:#e6ffed;border:1px solid #b6f1c5;padding:0.75rem;border-radius:4px;color:#065f26;">
-            <?php echo $flash_msg; ?>
-        </div>
-    </div>
-    <?php endif; ?>
 
     <main>
         <section class="hero">
@@ -98,6 +63,7 @@ if (!isset($_SESSION["user_id"])) {
                 <p>Уеб платформа за архивиране на плакати, сценарии, книги и други културни материали</p>
                 <div class="search-box">
                     <form action="/search" method="GET">
+                        <!-- #TODO implement search -->
                         <input type="text" name="q" placeholder="Търсете в архива..." class="search-input">
                         <button type="submit" class="search-btn">Търси</button>
                     </form>
@@ -116,7 +82,7 @@ if (!isset($_SESSION["user_id"])) {
                         <a href="#">Разгледай</a>
                     </div>
                     <div class="collection-item">
-                        <img src="/img/faust_tile.jpg" alt="Опера"> <!-- TODO change -->
+                        <img src="/img/faust_tile.jpg" alt="Опера"> <!-- #TODO change cards to db content-->
                         <h4>Оперни Корици</h4>
                         <p>Либрета и корици на български опери</p>
                         <a href="#">Разгледай</a>
@@ -165,8 +131,8 @@ if (!isset($_SESSION["user_id"])) {
                 <h3>Участвайте в архива</h3>
                 <p>Всеки с акаунт може да изпраща материали за модерация и публикуване</p>
                 <div class="contribute-actions">
-                    <a href="/upload" class="btn-primary">Качи материал</a>
-                    <a href="/volunteer" class="btn-secondary">Стани доброволец</a>
+                    <a href="./submission.php" class="btn-primary">Качи материал</a>
+                    <a href="#" class="btn-secondary">Стани доброволец</a>
                 </div>
             </div>
         </section>
@@ -183,10 +149,10 @@ if (!isset($_SESSION["user_id"])) {
                 <div class="footer-section">
                     <h4>Връзки</h4>
                     <ul>
-                        <li><a href="/contact">Контакти</a></li>
-                        <li><a href="/privacy">Политика за поверителност</a></li>
-                        <li><a href="/terms">Условия за ползване</a></li>
-                        <li><a href="/donate">Направи дарение</a></li>
+                        <li><a href="#">Контакти</a></li>
+                        <li><a href="#">Политика за поверителност</a></li>
+                        <li><a href="#">Условия за ползване</a></li>
+                        <li><a href="#">Направи дарение</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">

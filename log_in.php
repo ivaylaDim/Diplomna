@@ -10,11 +10,6 @@ if (isset($_SESSION["user_id"])) {
 }
 require_once __DIR__ . '/config.php';
 
-// Optional flash message (e.g. after successful registration)
-// $flash_msg = '';
-// if (!empty($_GET['msg'])) {
-// 	$flash_msg = htmlspecialchars($_GET['msg'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-// }
 ?>
 
 <!DOCTYPE html>
@@ -47,11 +42,7 @@ require_once __DIR__ . '/config.php';
 	<main>
 		<section class="hero">
 			<div class="container">
-				<?php if (!empty($flash_msg)): ?>
-				<div class="flash-success" style="background:#e6ffed;border:1px solid #b6f1c5;padding:0.75rem;border-radius:4px;color:#065f26;margin-bottom:1rem;">
-					<?php echo $flash_msg; ?>
 				</div>
-				<?php endif; ?>
 				<div class="card auth-card">
 					<div class="auth-forms">
 						<!-- Login panel -->
