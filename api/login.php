@@ -52,7 +52,7 @@ if ($user = $result->fetch_assoc()) {
     if (password_verify($password, $user["hashed_pass"])) {
         $_SESSION['username'] = $user["username"];
         $_SESSION['user_id'] = $user["id"];
-        // Store user role in session for access control
+        // store user role in session for access control
         $_SESSION['role'] = $user['role'] ?? 'user';
         if ($remember) {
             

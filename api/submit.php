@@ -14,11 +14,12 @@ $user_id = $_SESSION['user_id'];
 $type = trim($_POST['type'] ?? '');
 $title = trim($_POST['title'] ?? '');
 $description = trim($_POST['description'] ?? '');
+$download_link = trim($_POST['download_link'] ?? '');
 $year = isset($_POST['year']) && $_POST['year'] !== '' ? (int)$_POST['year'] : NULL;
 $genre = trim($_POST['genre'] ?? '');
 
-// Validate common fields
-if (empty($type) || empty($title) || empty($description)) {
+// Validate common fields (description is optional)
+if (empty($type) || empty($title)) {
     echo json_encode(['status' => 'error', 'message' => 'Моля, попълнете всички задължителни полета.']);
     exit;
 }
@@ -59,16 +60,16 @@ if (isset($_FILES['cover_path']) && $_FILES['cover_path']['size'] > 0) {
     }
 }
 
-// Insert into contents table
-$insert_content = "INSERT INTO contents (type, title, description, year, genre, cover_path, user_id) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?)";
+// Insert into contents table (include optional download_link)
+$insert_content = "INSERT INTO contents (type, title, description, year, genre, download_link, cover_path, user_id) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($insert_content);
 if (!$stmt) {
     echo json_encode(['status' => 'error', 'message' => 'Грешка на базата данни: ' . $conn->error]);
     exit;
 }
 
-$stmt->bind_param("sssisss", $type, $title, $description, $year, $genre, $cover_path, $user_id);
+$stmt->bind_param("sssissss", $type, $title, $description, $year, $genre, $download_link, $cover_path, $user_id);
 
 if (!$stmt->execute()) {
     echo json_encode(['status' => 'error', 'message' => 'Грешка при вмъкване на материала.']);

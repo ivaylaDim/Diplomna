@@ -5,7 +5,8 @@
 
 session_start();
 require_once "db.php";
-
+#TODO normalise head tags in every file (use mvc?)
+#TODO session timeout
 if (!isset($_SESSION["user_id"])) {
     header("Location: log_in.php");
     exit;

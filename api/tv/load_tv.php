@@ -2,6 +2,22 @@
 require_once __DIR__ . '/../../db.php';
 session_start();
 
+// Defensive: convert runtime PHP errors/exceptions to JSON responses
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+set_error_handler(function($errno, $errstr, $errfile, $errline){
+    http_response_code(500);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(['status'=>'error','message'=>"PHP error: $errstr in $errfile:$errline"]);
+    exit;
+});
+set_exception_handler(function($e){
+    http_response_code(500);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(['status'=>'error','message'=>$e->getMessage()]);
+    exit;
+});
+
 // Optional params: limit, offset, q (search), format=json for JSON
 $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 50;
 $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;

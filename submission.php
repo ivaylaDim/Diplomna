@@ -33,10 +33,6 @@ if (!isset($_SESSION["user_id"])) {
                 <li><a href="index.php">Начало</a></li>
             </ul>
         </nav>
-        <div class="user-actions">
-            <a href="log_in.php" class="btn-login">Вход</a>
-            <a href="register.php" class="btn-register">Регистрация</a>
-        </div>
     </div>
 </header>
 <main>
@@ -60,17 +56,36 @@ if (!isset($_SESSION["user_id"])) {
                                 </select>
 
                                 <!-- Common Fields -->
-                                <label for="sub-title">Заглавие</label>
+                                <label for="sub-title">Заглавие <span class="required">*</span></label>
                                 <input id="sub-title" name="title" type="text" required>
 
                                 <label for="sub-description">Описание</label>
-                                <textarea id="sub-description" name="description" rows="5" required></textarea>
+                                <textarea id="sub-description" name="description" rows="5"></textarea>
+
+                                <label for="sub-download">Линк за изтегляне (по избор)</label>
+                                <input id="sub-download" name="download_link" type="url" placeholder="https://example.com/file.zip">
 
                                 <label for="sub-year">Година</label>
                                 <input id="sub-year" name="year" type="number" min="1800" max="2099">
-                                <!-- #TODO create dropdown list with genres and field for link to download-->
+                                <!-- #TODO make the genres content type-specific-->
                                 <label for="sub-genre">Жанр</label>
-                                <input id="sub-genre" name="genre" type="text">
+                                <select id="sub-genre" name="genre">
+                                    <option value="">-- Избери жанр --</option>
+                                    <option value="Художествена литература">Художествена литература</option>
+                                    <option value="Нехудожествена литература">Нехудожествена литература</option>
+                                    <option value="Драма">Драма</option>
+                                    <option value="Комедия">Комедия</option>
+                                    <option value="Документален">Документален</option>
+                                    <option value="Научна фантастика">Научна фантастика</option>
+                                    <option value="Фентъзи">Фентъзи</option>
+                                    <option value="Трилър">Трилър</option>
+                                    <option value="Романтика">Романтика</option>
+                                    <option value="История">История</option>
+                                    <option value="Биография">Биография</option>
+                                    <option value="Поезия">Поезия</option>
+                                    <option value="За деца">За деца</option>
+                                    <option value="Експериментално">Експериментално</option>
+                                </select>
 
                                 <label for="sub-image">Изображение (корица)</label>
                                 <input id="sub-image" name="cover_path" type="file" accept="image/*">

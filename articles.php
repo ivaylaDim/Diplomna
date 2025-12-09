@@ -5,7 +5,7 @@ if (!isset($_SESSION["user_id"])) {
     header("Location: log_in.php");
     exit;
 }
-#TODO normalise head tags in every file
+
 ?>
 
 
