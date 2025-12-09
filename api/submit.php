@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+
 require_once "../db.php";
 
 // Check if user is logged in
@@ -166,4 +168,3 @@ exit;
 #TODO move switch case cases to separate files for better organization
 
 ?>
-

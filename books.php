@@ -20,97 +20,50 @@ if (!isset($_SESSION["user_id"])) {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/script/app.js" defer></script>
 </head>
-<body>
-<header class="site-header">
-    <div class="container">
-        <div class="logo">
-            <h1><a href="/">Български Културен Архив</a></h1>
-            <p>Дигитални архиви</p>
+<body data-role="<?= htmlspecialchars($_SESSION['role'] ?? 'guest', ENT_QUOTES) ?>">
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="/">Български Културен Архив</a></h1>
+                <p>Дигитални архиви</p>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.php">Начало</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="index.php">Начало</a></li>
-            </ul>
-        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Книги</h1>
+
+        <button id="reload-books">Презареди</button>
+        <span id="loader-books" style="display:none;">Loading...</span>
+        <div id="message-books" class="error"></div>
+
+        <div id="books-list">
+                <div class="table-wrap">
+                <table id="books-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Year</th>
+                            <?php if (in_array($_SESSION['role'] ?? 'user', ['moderator','administrator'])): ?>
+                                <th class="actions">Действия</th>
+                            <?php endif; ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- rows populated via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</header>
 
-<main class="container">
-    <h1>Книги</h1>
-
-    <button id="reload-books">Презареди</button>
-    <span id="loader-books" style="display:none;">Loading...</span>
-    <div id="message-books" class="error"></div>
-
-    <div id="books-list">
-         <!-- Books will be loaded here -->
-    </div>
-</main>
-
-<script>
-(function(){
-    function renderBooks(items){
-        if(!items || items.length === 0){
-            $("#books-list").html("<p>No books found.</p>");
-            return;
-        }
-        var html = '<table><thead><tr><th>ID</th><th>Title</th><th>Author</th><th>Year</th></tr></thead><tbody>';
-        $.each(items, function(i, b){
-            html += '<tr>'
-                  + '<td>' + $('<div>').text(b.id).html() + '</td>'
-                  + '<td>' + $('<div>').text(b.title).html() + '</td>'
-                  + '<td>' + $('<div>').text(b.author || '').html() + '</td>'
-                  + '<td>' + $('<div>').text(b.year || '').html() + '</td>'
-                  + '</tr>';
-        });
-        html += '</tbody></table>';
-        $("#books-list").html(html);
-    }
-
-    function loadBooks(){
-        $("#loader-books").show();
-        $("#message-books").text("");
-        $.ajax({
-            url: 'api/books/load_books.php',
-            method: 'GET',
-            dataType: 'json',
-            cache: false
-        }).done(function(response){
-            if (!response) {
-                $("#message-books").text('Invalid response from server');
-                $("#books-list").empty();
-                return;
-            }
-            if (response.status && response.status !== 'success') {
-                $("#message-books").text(response.message || 'Error loading books');
-                $("#books-list").empty();
-                return;
-            }
-            var items = response.data || response;
-            items = items.map(function(r){
-                return {
-                    id: r.content_id || r.id || null,
-                    title: r.title || '',
-                    author: r.author || r.book_author || '',
-                    year: r.year || ''
-                };
-            });
-            renderBooks(items);
-        }).fail(function(jqXHR, textStatus, errorThrown){
-            var msg = "Could not load books: " + (errorThrown || textStatus);
-            $("#message-books").text(msg);
-            $("#books-list").empty();
-        }).always(function(){
-            $("#loader-books").hide();
-        });
-    }
-
-    $(document).ready(function(){
-        $("#reload-books").on('click', loadBooks);
-        loadBooks();
-    });
-})();
-</script>
 
 </body>
 </html>

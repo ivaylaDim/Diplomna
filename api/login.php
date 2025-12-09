@@ -60,7 +60,13 @@ if ($user = $result->fetch_assoc()) {
             setcookie(session_name(), session_id(), time() + (60 * 60 * 24 * 30), $params['path'], $params['domain'], $params['secure'], $params['httponly']);
         }
         if ($acceptsJson) {
-            echo json_encode(['status' => 'success', 'message' => 'Успешен вход!']);
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Успешен вход!',
+                'redirect' => '../index.php',
+                'role' => $_SESSION['role'] ?? 'user',
+                'username' => $_SESSION['username'] ?? ''
+            ]);
             exit;
         }
         header('Location: ../index.php');

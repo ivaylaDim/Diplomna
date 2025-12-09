@@ -115,13 +115,13 @@ try {
             // Edit form (POST content_id to edit page)
             echo "<form class='edit-film-form' method='POST' action='api/films/edit.php' style='display:inline;margin-right:6px;'>";
             echo "<input type='hidden' name='content_id' value='" . htmlspecialchars($film['content_id'], ENT_QUOTES) . "' />";
-            echo "<button type='submit'>Редактирай</button>";
+            echo "<button type='submit' class='primary'>Редактирай</button>";
             echo "</form>";
 
             // Delete form (POST content_id to delete page) with confirm
             echo "<form class='delete-film-form' method='POST' action='api/films/delete.php' style='display:inline;' onsubmit=\"return confirm('Наистина ли искате да изтриете този материал?');\">";
             echo "<input type='hidden' name='content_id' value='" . htmlspecialchars($film['content_id'], ENT_QUOTES) . "' />";
-            echo "<button type='submit'>Изтрий</button>";
+            echo "<button type='submit' class='danger'>Изтрий</button>";
             echo "</form>";
         }
         echo "</div>"; // actions

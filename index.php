@@ -23,7 +23,7 @@ if (!isset($_SESSION["user_id"])) {
     <script src="assets/script/app.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
-<body>
+<body data-role="<?= htmlspecialchars($_SESSION['role'] ?? 'guest', ENT_QUOTES) ?>">
     <header class="site-header">
         <div class="container">
             <div class="logo">

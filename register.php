@@ -20,7 +20,7 @@ if (isset($_SESSION["user_id"])) {
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
-<body>
+<body data-role="<?= htmlspecialchars($_SESSION['role'] ?? 'guest', ENT_QUOTES) ?>">
 	<header class="site-header">
 		<div class="container">
 			<div class="logo">
@@ -61,14 +61,15 @@ if (isset($_SESSION["user_id"])) {
                                     <input id="reg-password-repeat" name="reg-password-repeat" type="password" required>
                                     <label>Роля (за тестване)</label>
                                     <div class="radio-group">
+										<label for="reg-role-user">Потребител</label>
                                         <input type="radio" id="reg-role-user" name="reg-role" value="user" required checked>
-                                        <label for="reg-role-user">Потребител</label>
-
+                                        
+										<label for="reg-role-moderator">Модератор</label>
                                         <input type="radio" id="reg-role-moderator" name="reg-role" value="moderator">
-                                        <label for="reg-role-moderator">Модератор</label>
-
+                                        
+										<label for="reg-role-admin">Админ</label>
                                         <input type="radio" id="reg-role-admin" name="reg-role" value="admin">
-                                        <label for="reg-role-admin">Админ</label>
+                                        
                                     </div>
 
 									<div>

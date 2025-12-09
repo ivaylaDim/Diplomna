@@ -24,7 +24,7 @@ require_once __DIR__ . '/config.php';
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
-<body>
+<body data-role="<?= htmlspecialchars($_SESSION['role'] ?? 'guest', ENT_QUOTES) ?>">
 	<header class="site-header">
 		<div class="container">
 			<div class="logo">
@@ -42,7 +42,6 @@ require_once __DIR__ . '/config.php';
 	<main>
 		<section class="hero">
 			<div class="container">
-				</div>
 				<div class="card auth-card">
 					<div class="auth-forms">
 						<!-- Login panel -->
@@ -56,9 +55,8 @@ require_once __DIR__ . '/config.php';
 									<label for="log-password">Парола</label>
 									<input id="log-password" name="log-password" type="password" required>
 
-									<div>
-										<label for="log-remember">Запомни ме</label>
-										<input type="checkbox" id="log-remember" name="log-remember" value="1">
+									<div class="remember-row">
+										<label class="checkbox-inline" for="log-remember"><input type="checkbox" id="log-remember" name="log-remember" value="1">Запомни ме</label>
 										<a href="register.php" id="show-register">Нямате акаунт?</a>
 									</div>
 									<button type="submit" class="btn-primary">Вход</button>

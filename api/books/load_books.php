@@ -102,12 +102,12 @@ try {
         if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $book['user_id']) {
             echo "<form class='edit-book-form' method='POST' action='api/books/edit.php' style='display:inline;margin-right:6px;'>";
             echo "<input type='hidden' name='content_id' value='" . htmlspecialchars($book['content_id'], ENT_QUOTES) . "' />";
-            echo "<button type='submit'>Редактирай</button>";
+            echo "<button type='submit' class='primary'>Редактирай</button>";
             echo "</form>";
 
             echo "<form class='delete-book-form' method='POST' action='api/books/delete.php' style='display:inline;' onsubmit=\"return confirm('Наистина ли искате да изтриете този материал?');\">";
             echo "<input type='hidden' name='content_id' value='" . htmlspecialchars($book['content_id'], ENT_QUOTES) . "' />";
-            echo "<button type='submit'>Изтрий</button>";
+            echo "<button type='submit' class='danger'>Изтрий</button>";
             echo "</form>";
         }
         echo "</div>"; // actions

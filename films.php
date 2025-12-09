@@ -23,33 +23,49 @@ if (!isset($_SESSION["user_id"])) {
         
     </script>
 </head>
-<body>
-<header class="site-header">
-    <div class="container">
-        <div class="logo">
-            <h1><a href="/">Български Културен Архив</a></h1>
-            <p>Дигитални архиви</p>
+<body data-role="<?= htmlspecialchars($_SESSION['role'] ?? 'guest', ENT_QUOTES) ?>">
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="/">Български Културен Архив</a></h1>
+                <p>Дигитални архиви</p>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.php">Начало</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="index.php">Начало</a></li>
-            </ul>
-        </nav>
+    </header>
+    <div class="container">
+        <h1>Филми</h1>
+
+        <button id="reload">Презареди</button>
+        <span id="loader">Зареждане...</span>
+        <div id="message" class="error"></div>
+
+        <div id="films">
+                <div class="table-wrap">
+                <table id="films-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Year</th>
+                            <th>Director</th>
+                            <?php if (in_array($_SESSION['role'] ?? 'user', ['moderator','administrator'])): ?>
+                                <th class="actions">Действия</th>
+                            <?php endif; ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- rows populated via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
-</header>
-<body>
-<main class="container">
-    <h1>Филми</h1>
-
-    <button id="reload">Презареди</button>
-    <span id="loader">Зареждане...</span>
-    <div id="message" class="error"></div>
-
-    <div id="films">
-        <!-- load films -->
-    </div>
-
-</main>
 
 
 
